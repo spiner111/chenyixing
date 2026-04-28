@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WordMaster - 智能单词学习系统</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        <!-- 侧边栏导航 -->
+        <nav class="sidebar">
+            <div class="logo">
+                <span class="logo-icon">📚</span>
+                <span class="logo-text">WordMaster</span>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item active" data-page="home">
+                    <span class="nav-icon">🏠</span>
+                    <span>首页</span>
+                </li>
+                <li class="nav-item" data-page="study">
+                    <span class="nav-icon">📖</span>
+                    <span>单词学习</span>
+                </li>
+                <li class="nav-item" data-page="quiz">
+                    <span class="nav-icon">✏️</span>
+                    <span>单词测试</span>
+                </li>
+                <li class="nav-item" data-page="review">
+                    <span class="nav-icon">🔄</span>
+                    <span>复习巩固</span>
+                </li>
+                <li class="nav-item" data-page="progress">
+                    <span class="nav-icon">📊</span>
+                    <span>学习进度</span>
+                </li>
+                <li class="nav-item" data-page="settings">
+                    <span class="nav-icon">⚙️</span>
+                    <span>设置</span>
+                </li>
+            </ul>
+        </nav>
+
+        <!-- 主内容区域 -->
+        <main class="main-content">
+            <!-- 首页 -->
+            <section id="home" class="page active">
+                <header class="page-header">
+                    <h1>欢迎回来，学习者！</h1>
+                    <p class="subtitle">今天也是充满知识的一天</p>
+                </header>
+                
+                <div class="stats-cards">
+                    <div class="stat-card">
+                        <div class="stat-icon">📚</div>
+                        <div class="stat-info">
+                            <span class="stat-value" id="total-words">0</span>
+                            <span class="stat-label">已学单词</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">🔥</div>
+                        <div class="stat-info">
+                            <span class="stat-value" id="streak-days">0</span>
+                            <span class="stat-label">连续学习天数</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">🎯</div>
+                        <div class="stat-info">
+                            <span class="stat-value" id="accuracy-rate">0%</span>
+                            <span class="stat-label">正确率</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">⭐</div>
+                        <div class="stat-info">
+                            <span class="stat-value" id="mastered-words">0</span>
+                            <span class="stat-label">掌握单词</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="quick-actions">
+                    <h2>快速开始</h2>
+                    <div class="action-buttons">
+                        <button class="action-btn primary" onclick="app.navigateTo('study')">
+                            <span class="btn-icon">📖</span>
+                            <span>开始学习</span>
+                        </button>
+                        <button class="action-btn secondary" onclick="app.navigateTo('quiz')">
+                            <span class="btn-icon">✏️</span>
+                            <span>单词测试</span>
+                        </button>
+                        <button class="action-btn secondary" onclick="app.navigateTo('review')">
+                            <span class="btn-icon">🔄</span>
+                            <span>今日复习</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="today-goal">
+                    <h2>今日目标</h2>
+                    <div class="goal-progress">
+                        <div class="goal-item">
+                            <span class="goal-name">学习新单词</span>
+                            <div class="progress-bar">
+                                <div class="progress-fill" id="new-words-progress"></div>
+                            </div>
+                            <span class="goal-value"><span id="new-words-count">0</span>/10</span>
+                        </div>
+                        <div class="goal-item">
+                            <span class="goal-name">复习单词</span>
+                            <div class="progress-bar">
+                                <div class="progress-fill" id="review-words-progress"></div>
+                            </div>
+                            <span class="goal-value"><span id="review-words-count">0</span>/20</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 单词学习页面 -->
+            <section id="study" class="page">
+                <header class="page-header">
+                    <h1>单词学习</h1>
+                    <p class="subtitle">选择词库开始学习新单词</p>
+                </header>
+
+                <div class="wordbook-selector">
+                    <h3>选择词库</h3>
+                    <div class="wordbook-grid">
+                        <div class="wordbook-card" data-book="cet4">
+                            <div class="wordbook-icon">🎓</div>
+                            <h4>大学英语四级</h4>
+                            <p>4500+ 核心词汇</p>
+                            <span class="wordbook-progress">0/4500</span>
+                        </div>
+                        <div class="wordbook-card" data-book="cet6">
+                            <div class="wordbook-icon">🎓</div>
+                            <h4>大学英语六级</h4>
+                            <p>5500+ 核心词汇</p>
+                            <span class="wordbook-progress">0/5500</span>
+                        </div>
+                        <div class="wordbook-card" data-book="ielts">
+                            <div class="wordbook-icon">🌍</div>
+                            <h4>雅思词汇</h4>
+                            <p>8000+ 核心词汇</p>
+                            <span class="wordbook-progress">0/8000</span>
+                        </div>
+                        <div class="wordbook-card" data-book="toefl">
+                            <div class="wordbook-icon">✈️</div>
+                            <h4>托福词汇</h4>
+                            <p>10000+ 核心词汇</p>
+                            <span class="wordbook-progress">0/10000</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="study-area" id="study-area" style="display: none;">
+                    <div class="word-card">
+                        <div class="word-header">
+                            <span class="word-tag" id="word-tag">CET-4</span>
+                            <button class="audio-btn" id="play-audio">🔊</button>
+                        </div>
+                        <h2 class="word-text" id="word-text">Loading...</h2>
+                        <p class="word-phonetic" id="word-phonetic">/.../</p>
+                        <div class="word-meaning" id="word-meaning">
+                            <p class="meaning-text">加载中...</p>
+                        </div>
+                        <div class="word-example" id="word-example">
+                            <p class="example-en"></p>
+                            <p class="example-cn"></p>
+                        </div>
+                    </div>
+                    <div class="study-actions">
+                        <button class="study-btn forget" id="btn-forget">😕 不认识</button>
+                        <button class="study-btn vague" id="btn-vague">🤔 模糊</button>
+                        <button class="study-btn know" id="btn-know">😊 认识</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 单词测试页面 -->
+            <section id="quiz" class="page">
+                <header class="page-header">
+                    <h1>单词测试</h1>
+                    <p class="subtitle">检验你的学习成果</p>
+                </header>
+
+                <div class="quiz-setup" id="quiz-setup">
+                    <div class="setup-card">
+                        <h3>测试设置</h3>
+                        <div class="setup-options">
+                            <div class="option-group">
+                                <label>测试模式</label>
+                                <div class="option-buttons">
+                                    <button class="option-btn active" data-mode="cn-to-en">中译英</button>
+                                    <button class="option-btn" data-mode="en-to-cn">英译中</button>
+                                    <button class="option-btn" data-mode="mixed">混合模式</button>
+                                </div>
+                            </div>
+                            <div class="option-group">
+                                <label>题目数量</label>
+                                <div class="option-buttons">
+                                    <button class="option-btn" data-count="10">10题</button>
+                                    <button class="option-btn active" data-count="20">20题</button>
+                                    <button class="option-btn" data-count="50">50题</button>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="start-quiz-btn" id="start-quiz">开始测试</button>
+                    </div>
+                </div>
+
+                <div class="quiz-area" id="quiz-area" style="display: none;">
+                    <div class="quiz-progress">
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="quiz-progress-fill"></div>
+                        </div>
+                        <span class="progress-text"><span id="current-question">1</span> / <span id="total-questions">20</span></span>
+                    </div>
+                    <div class="quiz-card">
+                        <h3 class="quiz-question" id="quiz-question">Question</h3>
+                        <div class="quiz-options" id="quiz-options">
+                            <!-- 选项将动态生成 -->
+                        </div>
+                    </div>
+                </div>
+
+                <div class="quiz-result" id="quiz-result" style="display: none;">
+                    <div class="result-card">
+                        <div class="result-icon">🎉</div>
+                        <h2>测试完成！</h2>
+                        <div class="result-score">
+                            <span class="score-value" id="score-value">0</span>
+                            <span class="score-total">/ <span id="score-total">20</span></span>
+                        </div>
+                        <p class="result-message" id="result-message">继续加油！</p>
+                        <div class="result-details">
+                            <div class="detail-item">
+                                <span class="detail-label">正确率</span>
+                                <span class="detail-value" id="result-accuracy">0%</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">用时</span>
+                                <span class="detail-value" id="result-time">00:00</span>
+                            </div>
+                        </div>
+                        <div class="result-actions">
+                            <button class="result-btn secondary" onclick="app.showQuizSetup()">重新设置</button>
+                            <button class="result-btn primary" onclick="app.restartQuiz()">再测一次</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 复习页面 -->
+            <section id="review" class="page">
+                <header class="page-header">
+                    <h1>复习巩固</h1>
+                    <p class="subtitle">根据艾宾浩斯遗忘曲线智能安排复习</p>
+                </header>
+
+                <div class="review-stats">
+                    <div class="review-stat-card">
+                        <span class="review-count" id="due-today">0</span>
+                        <span class="review-label">今日待复习</span>
+                    </div>
+                    <div class="review-stat-card">
+                        <span class="review-count" id="reviewed-today">0</span>
+                        <span class="review-label">已复习</span>
+                    </div>
+                </div>
+
+                <div class="review-list" id="review-list">
+                    <div class="empty-state">
+                        <span class="empty-icon">🎊</span>
+                        <p>太棒了！今日没有待复习的单词</p>
+                        <button class="action-btn primary" onclick="app.navigateTo('study')">去学习新单词</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 学习进度页面 -->
+            <section id="progress" class="page">
+                <header class="page-header">
+                    <h1>学习进度</h1>
+                    <p class="subtitle">查看你的学习数据统计</p>
+                </header>
+
+                <div class="progress-overview">
+                    <div class="overview-card">
+                        <h3>总学习时长</h3>
+                        <span class="overview-value" id="total-study-time">0小时</span>
+                    </div>
+                    <div class="overview-card">
+                        <h3>完成测试次数</h3>
+                        <span class="overview-value" id="total-quizzes">0次</span>
+                    </div>
+                    <div class="overview-card">
+                        <h3>平均正确率</h3>
+                        <span class="overview-value" id="avg-accuracy">0%</span>
+                    </div>
+                </div>
+
+                <div class="progress-chart">
+                    <h3>近7天学习趋势</h3>
+                    <div class="chart-container" id="study-chart">
+                        <!-- 图表将用CSS和JS生成 -->
+                    </div>
+                </div>
+
+                <div class="word-list-section">
+                    <h3>单词掌握情况</h3>
+                    <div class="word-status-tabs">
+                        <button class="status-tab active" data-status="all">全部</button>
+                        <button class="status-tab" data-status="mastered">已掌握</button>
+                        <button class="status-tab" data-status="learning">学习中</button>
+                        <button class="status-tab" data-status="difficult">困难词</button>
+                    </div>
+                    <div class="word-list" id="word-list">
+                        <!-- 单词列表将动态生成 -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- 设置页面 -->
+            <section id="settings" class="page">
+                <header class="page-header">
+                    <h1>设置</h1>
+                    <p class="subtitle">自定义你的学习体验</p>
+                </header>
+
+                <div class="settings-section">
+                    <h3>学习设置</h3>
+                    <div class="setting-item">
+                        <div class="setting-info">
+                            <span class="setting-name">每日新词目标</span>
+                            <span class="setting-desc">每天计划学习的新单词数量</span>
+                        </div>
+                        <div class="setting-control">
+                            <input type="number" id="daily-goal" value="10" min="5" max="50">
+                        </div>
+                    </div>
+                    <div class="setting-item">
+                        <div class="setting-info">
+                            <span class="setting-name">每日复习目标</span>
+                            <span class="setting-desc">每天计划复习的单词数量</span>
+                        </div>
+                        <div class="setting-control">
+                            <input type="number" id="review-goal" value="20" min="10" max="100">
+                        </div>
+                    </div>
+                    <div class="setting-item">
+                        <div class="setting-info">
+                            <span class="setting-name">自动播放发音</span>
+                            <span class="setting-desc">学习时自动播放单词发音</span>
+                        </div>
+                        <div class="setting-control">
+                            <label class="toggle">
+                                <input type="checkbox" id="auto-pronunciation" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="settings-section">
+                    <h3>数据管理</h3>
+                    <div class="setting-item">
+                        <div class="setting-info">
+                            <span class="setting-name">导出学习数据</span>
+                            <span class="setting-desc">将学习记录导出为JSON文件</span>
+                        </div>
+                        <div class="setting-control">
+                            <button class="setting-btn" id="export-data">导出</button>
+                        </div>
+                    </div>
+                    <div class="setting-item">
+                        <div class="setting-info">
+                            <span class="setting-name">导入学习数据</span>
+                            <span class="setting-desc">从JSON文件导入学习记录</span>
+                        </div>
+                        <div class="setting-control">
+                            <input type="file" id="import-data" accept=".json" hidden>
+                            <button class="setting-btn" onclick="document.getElementById('import-data').click()">导入</button>
+                        </div>
+                    </div>
+                    <div class="setting-item danger">
+                        <div class="setting-info">
+                            <span class="setting-name">清除所有数据</span>
+                            <span class="setting-desc">重置所有学习进度（不可恢复）</span>
+                        </div>
+                        <div class="setting-control">
+                            <button class="setting-btn danger" id="clear-data">清除</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- 通知提示 -->
+    <div class="notification" id="notification">
+        <span class="notification-icon">✓</span>
+        <span class="notification-message">操作成功</span>
+    </div>
+
+    <script src="data.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
